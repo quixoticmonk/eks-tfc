@@ -14,6 +14,7 @@ locals {
   }
 }
 
+
 data "http" "terraform_io" {
   url = "https://www.terraform.io"
 

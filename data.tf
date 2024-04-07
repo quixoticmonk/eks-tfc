@@ -1,5 +1,3 @@
-data "aws_availability_zones" "available" {}
-
 locals {
   name            = "marketplace-webinar-demo"
   cluster_version = var.cluster_version
@@ -24,4 +22,9 @@ data "http" "terraform_io" {
         error_message = "${self.url} returned an unhealthy status code"
     }
   }
+}
+
+data "aws_availability_zones" "available" {}
+data "aws_ecrpublic_authorization_token" "token" {
+  provider = aws.virginia
 }

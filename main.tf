@@ -93,12 +93,7 @@ module "eks" {
   }
 
 
-#  lifecycle {
-#    postcondition {
-#      condition     = self.status == "ACTIVE"
-#      error_message = "The cluster must be in ACTIVE status"
-#    }
-#  }
+
 
   tags = local.tags
 }
@@ -141,17 +136,6 @@ module "vpc" {
     "kubernetes.io/role/internal-elb" = 1
   }
 
-  lifecycle {
-    precondition {
-      condition = cidrnetmask(local.vpc_cidr) == "10.0.0.0"
-      error_message = "Expecting a /16 for this VPC!"
-    }
-#
-#    postcondition {
-#      condition = cidrnetmask(local.vpc_cidr) == "10.0.0.0"
-#      error_message = "Expecting a /16 for this VPC!"
-#    }
-  }
 
   tags = local.tags
 }
@@ -209,6 +193,18 @@ resource "aws_security_group" "remote_access" {
     protocol         = "-1"
     cidr_blocks      = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
+  }
+
+    lifecycle {
+    precondition {
+      condition     = module.vpc.vpc_ipv6_cidr_block == "10.0.0.0/16"
+      error_message = "Adding a dummy pre-condition"
+    }
+
+    precondition {
+      condition     = module.vpc.vpc_owner_id == data.aws_caller_identity.current.account_id
+      error_message = "Target account should match the owner id"
+    }
   }
 
   tags = merge(local.tags, { Name = "${local.name}-remote" })

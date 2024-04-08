@@ -261,5 +261,5 @@ resource "aws_eks_addon" "newrelic_addon" {
   depends_on    = [module.eks]
   addon_name    = "new-relic_kubernetes-operator"
   cluster_name  = module.eks.cluster_name
-  addon_version = "v0.1.9-eksbuild.1"
+  addon_version = "v0.1.8-eksbuild.1"
 }

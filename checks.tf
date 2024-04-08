@@ -1,15 +1,3 @@
-check "health_check" {
-  data "http" "check_url" {
-    url = "https://www.terraform.io"
-  }
-
-  assert {
-    condition     = data.http.terraform_io.status_code == 200
-    error_message = "${data.http.terraform_io.url} returned an unhealthy status code"
-  }
-}
-
-
 check "cluster_status" {
 
   assert {
@@ -56,7 +44,7 @@ check "newrelic_addon_version" {
 check "ssh_ingress_rules" {
 
   assert {
-    condition     = aws_security_group.remote_access.ingress.cidr_blocks == ["10.0.0.0/8"]
+    condition     = aws_security_group.remote_access.ingress[0].cidr_blocks == ["10.0.0.0/8"]
     error_message = "The ssh ingress cidr blocks have changed"
   }
 }

@@ -62,16 +62,28 @@ module "eks" {
 
   access_entries = {
     # One access entry with a policy associated
-    ex-single = {
-      kubernetes_groups = []
-      principal_arn     = aws_iam_role.this["single"].arn
+    role_1 = {
+      principal_arn = aws_iam_role.this.arn
 
       policy_associations = {
-        single = {
+        view_policy = {
           policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSViewPolicy"
           access_scope = {
             namespaces = ["default"]
             type       = "namespace"
+          }
+        }
+      }
+    }
+    role_2 = {
+      kubernetes_groups = []
+      principal_arn     = var.k8s_admin_role_arn
+
+      policy_associations = {
+        admin_policy = {
+          policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSAdminPolicy"
+          access_scope = {
+            type = "cluster"
           }
         }
       }
@@ -202,40 +214,9 @@ resource "aws_iam_policy" "node_additional" {
   tags = local.tags
 }
 
-data "aws_ami" "eks_default" {
-  most_recent = true
-  owners      = ["amazon"]
-
-  filter {
-    name   = "name"
-    values = ["amazon-eks-node-${local.cluster_version}-v*"]
-  }
-}
-
-data "aws_ami" "eks_default_arm" {
-  most_recent = true
-  owners      = ["amazon"]
-
-  filter {
-    name   = "name"
-    values = ["amazon-eks-arm64-node-${local.cluster_version}-v*"]
-  }
-}
-
-data "aws_ami" "eks_default_bottlerocket" {
-  most_recent = true
-  owners      = ["amazon"]
-
-  filter {
-    name   = "name"
-    values = ["bottlerocket-aws-k8s-${local.cluster_version}-x86_64-*"]
-  }
-}
 
 resource "aws_iam_role" "this" {
-  for_each = toset(["single", "multiple"])
-
-  name = "ex-${each.key}"
+  name = "webinar_ec2_role"
 
   # Just using for this example
   assume_role_policy = jsonencode({
@@ -261,5 +242,5 @@ resource "aws_eks_addon" "newrelic_addon" {
   depends_on    = [module.eks]
   addon_name    = "new-relic_kubernetes-operator"
   cluster_name  = module.eks.cluster_name
-  addon_version = "v0.1.8-eksbuild.1"
+  addon_version = data.aws_eks_addon_version.nr.version
 }

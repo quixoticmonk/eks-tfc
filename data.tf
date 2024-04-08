@@ -1,5 +1,5 @@
 locals {
-  name            = "marketplace-webinar-demo"
+  name            = "marketplace-webinar"
   cluster_version = var.cluster_version
   region          = "us-east-1"
 
@@ -8,7 +8,7 @@ locals {
 
   tags = {
     create_by = "manuchn"
-    product  = "webinar-example"
+    product   = "marketplace-webinar"
   }
 }
 
@@ -18,8 +18,8 @@ data "http" "terraform_io" {
 
   lifecycle {
     postcondition {
-        condition = self.status_code == 200
-        error_message = "${self.url} returned an unhealthy status code"
+      condition     = self.status_code == 200
+      error_message = "${self.url} returned an unhealthy status code"
     }
   }
 }
@@ -27,6 +27,7 @@ data "http" "terraform_io" {
 data "aws_caller_identity" "current" {}
 data "aws_availability_zones" "available" {}
 
-data "aws_ecrpublic_authorization_token" "token" {
-  provider = aws.virginia
+data "aws_eks_addon_version" "nr" {
+  addon_name         = "new-relic_kubernetes-operator"
+  kubernetes_version = local.cluster_version
 }

@@ -53,17 +53,26 @@ check "newrelic_addon_version" {
   }
 }
 
-
-check "newrelic_addon_version" {
-
-  data "aws_eks_addon" "nr" {
-    addon_name   = "new-relic_kubernetes-operator"
-    cluster_name = local.name
-  }
-
+check "ssh_ingress_rules" {
 
   assert {
-    condition     = data.aws_eks_addon.nr.addon_version == "v0.1.8-eksbuild.1"
-    error_message = "Addon version is ${data.aws_eks_addon.nr.addon_version}"
+    condition     = aws_security_group.remote_access.ingress.cidr_blocks == ["10.0.0.0/8"]
+    error_message = "The ssh ingress cidr blocks have changed"
+  }
+}
+
+check "key_pair_exists" {
+
+  assert {
+    condition     = module.key_pair.key_pair_name == local.name
+    error_message = "The key pair by the name ${local.name} doesn't exist"
+  }
+}
+
+check "kms_key_status" {
+
+  assert {
+    condition     = module.ebs_kms_key.external_key_state == "Enabled"
+    error_message = "The required KMS key is in a ${module.ebs_kms_key.external_key_state} state"
   }
 }

@@ -92,6 +92,14 @@ module "eks" {
 
   }
 
+
+#  lifecycle {
+#    postcondition {
+#      condition     = self.status == "ACTIVE"
+#      error_message = "The cluster must be in ACTIVE status"
+#    }
+#  }
+
   tags = local.tags
 }
 
@@ -132,7 +140,7 @@ module "vpc" {
   private_subnet_tags = {
     "kubernetes.io/role/internal-elb" = 1
   }
-
+  
   tags = local.tags
 }
 

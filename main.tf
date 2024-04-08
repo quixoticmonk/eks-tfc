@@ -140,7 +140,19 @@ module "vpc" {
   private_subnet_tags = {
     "kubernetes.io/role/internal-elb" = 1
   }
-  
+
+  lifecycle {
+    precondition {
+      condition = cidrnetmask(local.vpc_cidr) == "10.0.0.0"
+      error_message = "Expecting a /16 for this VPC!"
+    }
+#
+#    postcondition {
+#      condition = cidrnetmask(local.vpc_cidr) == "10.0.0.0"
+#      error_message = "Expecting a /16 for this VPC!"
+#    }
+  }
+
   tags = local.tags
 }
 

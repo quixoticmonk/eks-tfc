@@ -44,7 +44,7 @@ check "newrelic_addon_version" {
 check "ssh_ingress_rules" {
 
   assert {
-    condition     = aws_security_group.remote_access.ingress[0].cidr_blocks == ["10.0.0.0/8"]
+    condition     = aws_security_group.remote_access.ingress[*].cidr_blocks == ["10.0.0.0/8"]
     error_message = "The ssh ingress cidr blocks have changed"
   }
 }

@@ -61,6 +61,6 @@ check "kms_key_status" {
 
   assert {
     condition     = module.ebs_kms_key.external_key_state == "Enabled"
-    error_message = "The required KMS key is in a ${module.ebs_kms_key.external_key_state} state"
+    error_message = "The required KMS key is not in Enabled state"
   }
 }

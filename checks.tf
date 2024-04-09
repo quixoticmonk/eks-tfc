@@ -36,7 +36,7 @@ check "newrelic_addon_version" {
 
 
   assert {
-    condition     = data.aws_eks_addon.nr.addon_version == "v0.1.8-eksbuild.1"
+    condition     = data.aws_eks_addon.nr.addon_version == "v0.1.9-eksbuild.1"
     error_message = "Addon version is ${data.aws_eks_addon.nr.addon_version}"
   }
 }

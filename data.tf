@@ -39,5 +39,17 @@ data "aws_eks_cluster" "cluster" {
     }
   }
 
+}
 
+
+data "aws_kms_key" "key" {
+  key_id = module.ebs_kms_key.key_id
+
+  lifecycle {
+    postcondition {
+      condition = self.enabled==true
+      error_message = "The KMS key is not in an Enabled state"
+    }
+  }
+  
 }

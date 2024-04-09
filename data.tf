@@ -34,8 +34,8 @@ data "aws_eks_cluster" "cluster" {
     }
 
     postcondition {
-      condition     = self.platform_version == local.cluster_version
-      error_message = "The cluster version is set to ${self.platform_version}"
+      condition     = self.version == local.cluster_version
+      error_message = "The cluster version is set to ${self.version}"
     }
   }
 

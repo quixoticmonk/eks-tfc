@@ -22,15 +22,20 @@ data "aws_eks_addon_version" "nr" {
 }
 
 data "aws_eks_cluster" "cluster" {
-  name= module.eks.cluster_name
+  name = module.eks.cluster_name
   lifecycle {
     postcondition {
-      condition = self.cluster_version==local.cluster_version
-      error_message = "The cluster version is set to ${self.cluster_version}"
+      condition     = self.status == "ACTIVE"
+      error_message = "The cluster status is ${self.status}"
     }
-        postcondition {
-      condition = self.cluster_name==local.name
+    postcondition {
+      condition     = self.name == local.name
       error_message = "The cluster version is set to ${self.cluster_name}"
+    }
+
+    postcondition {
+      condition     = self.platform_version == local.cluster_version
+      error_message = "The cluster version is set to ${self.platform_version}"
     }
   }
 

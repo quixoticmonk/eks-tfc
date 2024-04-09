@@ -195,7 +195,7 @@ resource "aws_security_group" "remote_access" {
     ipv6_cidr_blocks = ["::/0"]
   }
 
-    lifecycle {
+  lifecycle {
 
     precondition {
       condition     = module.vpc.vpc_owner_id == data.aws_caller_identity.current.account_id
@@ -261,4 +261,21 @@ resource "aws_eks_addon" "newrelic_addon" {
   addon_name    = "new-relic_kubernetes-operator"
   cluster_name  = module.eks.cluster_name
   addon_version = data.aws_eks_addon_version.nr.version
+
+  lifecycle {
+
+    precondition {
+      condition     = module.eks.cluster_status == "ACTIVE"
+      error_message = "Cluster should be active"
+    }
+
+    precondition {
+      condition     = module.eks.cluster_version == local.cluster_version
+      error_message = "Cluster version should 1.28"
+    }
+    precondition {
+      condition     = module.eks.cloudwatch_log_group_name == "/aws/eks/${local.name}/cluster"
+      error_message = "Cloudwatch log group should contain the cluster name"
+    }
+  }
 }

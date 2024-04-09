@@ -47,9 +47,19 @@ data "aws_kms_key" "key" {
 
   lifecycle {
     postcondition {
-      condition = self.enabled==true
+      condition     = self.enabled == true
       error_message = "The KMS key is not in an Enabled state"
     }
+    postcondition {
+      condition     = self.aws_account_id == data.aws_caller_identity.current.account_id
+      error_message = "The KMS key is not in an Enabled state"
+    }
+
+    postcondition {
+      condition     = self.multi_region == false
+      error_message = "The KMS key is not in an Enabled state"
+    }
+
   }
-  
+
 }

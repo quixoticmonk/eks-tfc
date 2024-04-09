@@ -59,8 +59,13 @@ check "key_pair_exists" {
 
 check "kms_key_status" {
 
+  data "aws_kms_key" "this" {
+    key_id = module.ebs_kms_key.key_id
+
+  }
+
   assert {
-    condition     = module.ebs_kms_key.external_key_state == "Enabled"
-    error_message = "The required KMS key is not in Enabled state"
+    condition     = data.aws_kms_key.this.key_state == "Enabled"
+    error_message = "The required KMS key is not in ${data.aws_kms_key.this.key_state} state"
   }
 }

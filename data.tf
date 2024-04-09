@@ -30,7 +30,7 @@ data "aws_eks_cluster" "cluster" {
     }
     postcondition {
       condition     = self.name == local.name
-      error_message = "The cluster version is set to ${self.cluster_name}"
+      error_message = "The cluster version is set to ${self.name}"
     }
 
     postcondition {

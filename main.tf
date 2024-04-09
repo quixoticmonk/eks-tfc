@@ -196,15 +196,17 @@ resource "aws_security_group" "remote_access" {
   }
 
     lifecycle {
-    precondition {
-      condition     = module.vpc.vpc_ipv6_cidr_block == "10.0.0.0/16"
-      error_message = "Adding a dummy pre-condition"
-    }
 
     precondition {
       condition     = module.vpc.vpc_owner_id == data.aws_caller_identity.current.account_id
       error_message = "Target account should match the owner id"
     }
+
+    precondition {
+      condition     = module.vpc.vpc_enable_dns_support == true
+      error_message = "DNS support should be enabled"
+    }
+
   }
 
   tags = merge(local.tags, { Name = "${local.name}-remote" })

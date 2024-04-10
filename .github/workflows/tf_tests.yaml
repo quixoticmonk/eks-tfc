@@ -8,7 +8,7 @@ env:
   TF_VERSION: "v1.8.0-alpha20240228"
 
 jobs:
-  deploy-site:
+  run-tests:
     permissions:
       id-token: write
       contents: read

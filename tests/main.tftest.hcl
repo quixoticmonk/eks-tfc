@@ -6,7 +6,7 @@ mock_provider "aws" {
 
 run "validate_variables" {
   command = plan
-  providers {
+  providers = {
     aws = aws.mock_aws
   }
 

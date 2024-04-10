@@ -65,7 +65,7 @@ check "kms_key_status" {
   }
 
   assert {
-    condition     = data.aws_kms_key.this.key_state == "Enabled"
-    error_message = "The required KMS key is not in ${data.aws_kms_key.this.key_state} state"
+    condition     = data.aws_kms_key.this.enabled==true
+    error_message = "The required KMS key is not in Enabled state"
   }
 }

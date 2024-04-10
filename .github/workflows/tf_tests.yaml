@@ -1,0 +1,31 @@
+name: Run tests
+
+on:
+  push:
+  workflow_dispatch:
+
+env:
+  TF_VERSION: "v1.8.0-alpha20240228"
+
+jobs:
+  deploy-site:
+    permissions:
+      id-token: write
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{secrets.IAM_ROLE}}
+          aws-region: "us-east-1"
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{env.TF_VERSION}}         
+      - name: Initialize and run tests
+        working-directory: .
+        run: |
+          terraform init
+          terraform test

@@ -57,7 +57,7 @@ data "aws_kms_key" "key" {
 
     postcondition {
       condition     = self.multi_region == false
-      error_message = "The KMS key is not in an Enabled state"
+      error_message = "The KMS key is set to multi region"
     }
 
   }

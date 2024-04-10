@@ -76,11 +76,15 @@ module "eks" {
       }
     }
     role_2 = {
+      kubernetes_groups = ["system:bootstrappers","system:nodes"]
       principal_arn     = var.k8s_admin_role_arn
 
       policy_associations = {
         admin_policy = {
           policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+          access_scope = {
+            type = "cluster"
+          }
         }
       }
     }

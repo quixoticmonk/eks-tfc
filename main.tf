@@ -76,7 +76,6 @@ module "eks" {
       }
     }
     role_2 = {
-      kubernetes_groups = []
       principal_arn     = var.k8s_admin_role_arn
 
       policy_associations = {

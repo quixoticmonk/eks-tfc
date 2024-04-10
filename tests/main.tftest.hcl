@@ -1,5 +1,5 @@
 mock_provider "aws" {
-  alias = mock_aws
+  alias = "mock_aws"
 
 }
 

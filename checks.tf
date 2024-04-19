@@ -36,8 +36,8 @@ check "newrelic_addon_version" {
 
 
   assert {
-    condition     = data.aws_eks_addon.nr.addon_version == "v0.1.9-eksbuild.1"
-    error_message = "Addon version is ${data.aws_eks_addon.nr.addon_version}"
+    condition     = data.aws_eks_addon.nr.addon_version == "v0.1.8-eksbuild.1"
+    error_message = "Latest addon version for New Relic is ${data.aws_eks_addon.nr.addon_version}"
   }
 }
 
@@ -65,7 +65,7 @@ check "kms_key_status" {
   }
 
   assert {
-    condition     = data.aws_kms_key.this.enabled==true
+    condition     = data.aws_kms_key.this.enabled == true
     error_message = "The required KMS key is not in Enabled state"
   }
 }

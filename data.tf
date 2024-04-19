@@ -16,11 +16,6 @@ locals {
 data "aws_caller_identity" "current" {}
 data "aws_availability_zones" "available" {}
 
-data "aws_eks_addon_version" "nr" {
-  addon_name         = "new-relic_kubernetes-operator"
-  kubernetes_version = local.cluster_version
-}
-
 data "aws_eks_cluster" "cluster" {
   name = module.eks.cluster_name
   lifecycle {

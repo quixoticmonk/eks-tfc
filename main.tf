@@ -11,8 +11,8 @@ module "eks" {
   cluster_endpoint_public_access = true
 
   # IPV6
-  cluster_ip_family          = "ipv6"
-  create_cni_ipv6_iam_policy = true
+  #   cluster_ip_family          = "ipv6"
+  #   create_cni_ipv6_iam_policy = true
 
   enable_cluster_creator_admin_permissions = true
 
@@ -76,7 +76,7 @@ module "eks" {
       }
     }
     role_2 = {
-      principal_arn     = var.k8s_admin_role_arn
+      principal_arn = var.k8s_admin_role_arn
 
       policy_associations = {
         admin_policy = {
@@ -236,7 +236,6 @@ resource "aws_iam_policy" "node_additional" {
 resource "aws_iam_role" "this" {
   name = "webinar_ec2_role"
 
-  # Just using for this example
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -260,7 +259,7 @@ resource "aws_eks_addon" "newrelic_addon" {
   depends_on    = [module.eks]
   addon_name    = "new-relic_kubernetes-operator"
   cluster_name  = module.eks.cluster_name
-  addon_version = data.aws_eks_addon_version.nr.version
+  addon_version = "v0.1.8-eksbuild.1"
 
   lifecycle {
 

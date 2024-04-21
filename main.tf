@@ -278,3 +278,4 @@ resource "aws_eks_addon" "newrelic_addon" {
     }
   }
 }
+

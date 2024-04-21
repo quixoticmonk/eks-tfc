@@ -1,4 +1,5 @@
 <!-- BEGIN_TF_DOCS -->
+
 # Terraform based EKS cluster deployment with a marketplace addon
 
 This Terraform configuration provisions an EKS cluster using the community edition of eks modules.

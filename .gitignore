@@ -35,4 +35,3 @@ terraform.rc
 .terraform.lock.hcl
 
 .idea
-tfplan.out

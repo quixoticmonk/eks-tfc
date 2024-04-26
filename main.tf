@@ -50,15 +50,16 @@ module "eks" {
   }
 
   eks_managed_node_groups = {
-    example = {
-      min_size     = 1
-      max_size     = 10
-      desired_size = 1
+    default_node_group = {
+      use_custom_launch_template = false
 
-      instance_types = ["t3.large"]
-      capacity_type  = "SPOT"
+      disk_size = 50
+
+      remote_access = {
+        ec2_ssh_key               = module.key_pair.key_pair_name
+        source_security_group_ids = [aws_security_group.remote_access.id]
+      }
     }
-  }
 
   access_entries = {
     # One access entry with a policy associated

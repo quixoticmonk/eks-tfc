@@ -1,6 +1,7 @@
 variable "k8s_admin_role_arn" {
   type        = string
   description = "Role arn to be provided cluster admin access"
+  default = "arn:aws:iam::697621333100:role/webinar_github_role"
 }
 
 variable "cluster_version" {

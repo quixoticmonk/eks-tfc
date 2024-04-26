@@ -50,16 +50,22 @@ module "eks" {
   }
 
   eks_managed_node_groups = {
+    # Default node group - as provided by AWS EKS
     default_node_group = {
+      # By default, the module creates a launch template to ensure tags are propagated to instances, etc.,
+      # so we need to disable it to use the default template provided by the AWS EKS managed node group service
       use_custom_launch_template = false
 
       disk_size = 50
 
+      # Remote access cannot be specified with a launch template
       remote_access = {
         ec2_ssh_key               = module.key_pair.key_pair_name
         source_security_group_ids = [aws_security_group.remote_access.id]
       }
     }
+
+  }
 
   access_entries = {
     # One access entry with a policy associated

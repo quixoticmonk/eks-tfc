@@ -16,7 +16,7 @@ variable "cluster_version" {
 
 
 variable "nr_apikey" {
-  type = string 
+  type = string
 }
 
 variable "nr_account_id" {

@@ -18,3 +18,9 @@ terraform {
 provider "aws" {
   region = local.region
 }
+
+
+provider "newrelic" {
+  api_key    = var.nr_apikey
+  account_id = var.nr_account_id
+}

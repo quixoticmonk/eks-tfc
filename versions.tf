@@ -6,6 +6,11 @@ terraform {
       source  = "hashicorp/aws"
       version = ">= 5.40"
     }
+    newrelic = {
+      source  = "newrelic/newrelic"
+      version = "3.35.1"
+    }
+
   }
 }
 

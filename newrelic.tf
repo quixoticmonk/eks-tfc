@@ -21,7 +21,6 @@ resource "aws_eks_addon" "newrelic_addon" {
       condition     = module.eks.cloudwatch_log_group_name == "/aws/eks/${local.name}/cluster"
       error_message = "Cloudwatch log group should contain the cluster name"
     }
-    ignore_changes = [addon_version]
   }
 }
 

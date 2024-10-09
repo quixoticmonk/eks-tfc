@@ -14,6 +14,7 @@ check "cluster_version" {
   }
 }
 
+
 check "access_config" {
 
   data "aws_eks_cluster" "this" {
